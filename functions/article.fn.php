@@ -7,6 +7,16 @@
  * @return bool|mysqli_result
  */
 //TODO créer une fonction qui retourne tous les articles : possibilité de ne sélectionner que les articles activés + possibilité d'activer une limitation du nombre d'article (SELECT)
+function getAllArticles($link) {
+    $sql = "SELECT * FROM article";
+    $result = mysqli_query($link, $sql);
+
+    if ($result) {
+        return $result;
+    } else {
+        return false;
+    }
+}
 
 /**
  * @param $link
@@ -14,6 +24,16 @@
  * @return bool|mysqli_result
  */
 //TODO créer une fonction qui retourne un seul article d'après son id (SELECT)
+function getArticle($link, $id) {
+    $sql = "SELECT * FROM article WHERE id=$id";
+    $result = mysqli_query($link, $sql);
+
+    if ($result) {
+        return $result;
+    } else {
+        return false;
+    }
+}
 
 /**
  * @param $link

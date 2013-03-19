@@ -34,3 +34,10 @@ if (! $link) {
 
 include('templates/_header.phtml');
 include('templates/_navbar.phtml');
+
+$articles = getAllArticles($link);
+
+while ($article = mysqli_fetch_assoc($articles))
+{
+    var_dump($article);
+}
