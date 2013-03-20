@@ -6,7 +6,6 @@
  * @param bool $limit
  * @return bool|mysqli_result
  */
-//TODO créer une fonction qui retourne tous les articles : possibilité de ne sélectionner que les articles activés + possibilité d'activer une limitation du nombre d'article (SELECT)
 function getAllArticles($link) {
     $sql = "SELECT * FROM article";
     $result = mysqli_query($link, $sql);
@@ -41,6 +40,18 @@ function getArticle($link, $id) {
  * @return bool|mysqli_result
  */
 //TODO créer une fonction qui ajoute un article en BDD (INSERT)
+function addArticle($link, array $article) {
+    $title = mysqli_real_escape_string($link, $article['title']);
+    $content = mysqli_real_escape_string($link, $article['content']);
+    $sql = "INSERT INTO article (`id`, `title`, `content`, `date`, `enabled`) VALUES (NULL, '$title', '$content', NULL, '$enabled')";
+    $result = mysqli_query($link, $sql);
+
+    if ($result) {
+        return $result;
+    } else {
+        return false;
+    }
+}
 
 /**
  * @param $link
@@ -48,6 +59,19 @@ function getArticle($link, $id) {
  * @return bool|mysqli_result
  */
 //TODO créer une fonction qui met à jour un article en BDD d'après son id (UPDATE) : ne pas mettre à jour le champ `enabled` ici
+function updateArticle($link, array $article) {
+    $id = mysqli_real_escape_string($link, $article['id']);
+    $title = mysqli_real_escape_string($link, $article['title']);
+    $content = mysqli_real_escape_string($link, $article['content']);
+    $sql = "UPDATE article SET `title`='$title', `content`='$content' WHERE `id`=$id";
+    $result = mysqli_query($link, $sql);
+
+    if ($result) {
+        return $result;
+    } else {
+        return false;
+    }
+}
 
 /**
  * @param $link
@@ -55,6 +79,18 @@ function getArticle($link, $id) {
  * @return bool|mysqli_result
  */
 //TODO créer une fonction qui supprime un article en BDD d'après son id (DELETE)
+function removeArticle($link, $id) {
+    $id = mysqli_real_escape_string($link, $id);
+    $sql = 'DELETE FROM article WHERE id = ' . $id;
+    $result = mysqli_query($link, $sql);
+
+    if ($result) {
+        return $result;
+    } else {
+        return false;
+    }
+}
+
 
 /**
  * @param $link
