@@ -6,6 +6,7 @@
  * @param bool $limit
  * @return bool|mysqli_result
  */
+//TODO créer une fonction qui retourne tous les articles : possibilité de ne sélectionner que les articles activés + possibilité d'activer une limitation du nombre d'article (SELECT)
 function getAllArticles($link) {
     $sql = "SELECT * FROM article";
     $result = mysqli_query($link, $sql);
@@ -40,10 +41,8 @@ function getArticle($link, $id) {
  * @return bool|mysqli_result
  */
 //TODO créer une fonction qui ajoute un article en BDD (INSERT)
-function addArticle($link, array $article) {
-    $title = mysqli_real_escape_string($link, $article['title']);
-    $content = mysqli_real_escape_string($link, $article['content']);
-    $sql = "INSERT INTO article (`id`, `title`, `content`, `date`, `enabled`) VALUES (NULL, '$title', '$content', NULL, '$enabled')";
+function addArticle($link, $title, $content) {
+    $sql = "INSERT INTO article (id, title, content) VALUES (NULL, '$title', '$content')";
     $result = mysqli_query($link, $sql);
 
     if ($result) {
@@ -59,11 +58,8 @@ function addArticle($link, array $article) {
  * @return bool|mysqli_result
  */
 //TODO créer une fonction qui met à jour un article en BDD d'après son id (UPDATE) : ne pas mettre à jour le champ `enabled` ici
-function updateArticle($link, array $article) {
-    $id = mysqli_real_escape_string($link, $article['id']);
-    $title = mysqli_real_escape_string($link, $article['title']);
-    $content = mysqli_real_escape_string($link, $article['content']);
-    $sql = "UPDATE article SET `title`='$title', `content`='$content' WHERE `id`=$id";
+function updateArticle($link, $id, $title, $content) {
+    $sql = "UPDATE article SET title = '$title', content = '$content' WHERE id = $id";
     $result = mysqli_query($link, $sql);
 
     if ($result) {
@@ -79,9 +75,8 @@ function updateArticle($link, array $article) {
  * @return bool|mysqli_result
  */
 //TODO créer une fonction qui supprime un article en BDD d'après son id (DELETE)
-function removeArticle($link, $id) {
-    $id = mysqli_real_escape_string($link, $id);
-    $sql = 'DELETE FROM article WHERE id = ' . $id;
+function deleteArticle($link, $id) {
+    $sql = "DELETE FROM article WHERE id = $id";
     $result = mysqli_query($link, $sql);
 
     if ($result) {
@@ -90,7 +85,6 @@ function removeArticle($link, $id) {
         return false;
     }
 }
-
 
 /**
  * @param $link
@@ -112,3 +106,11 @@ function removeArticle($link, $id) {
  * @return string
  */
 //TODO créer une fonction qui retourne un résumé (d'une "length" modifiable) d'une chaîne de caractère (string)
+function getExcerpt($string, $length = 300) {
+    $excerpt = substr($string, 0, $length);
+    if (strlen($string) > $length) {
+        $excerpt .= '...';
+    }
+
+    return $excerpt;
+}

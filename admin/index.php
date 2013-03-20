@@ -7,7 +7,7 @@ include('../_header.php');
  */
 //TODO si on est n'est pas connecté, rediriger ver '../login.php'
 
-//TODO récupérer tous les articles (y compris ceux désactivés)
+$articles = getAllArticles($link);
 
 ?>
 
@@ -31,13 +31,22 @@ include('../_header.php');
     <tbody>
 
 <?php
-//TODO effectuer une boucle pour afficher les articles un par un
+while ($article = mysqli_fetch_assoc($articles))
+{
 ?>
         <tr>
+            <th><?=$article['id'];?></th>
+            <th><?=getExcerpt($article['title'], 150);?></th>
+            <th><?=getExcerpt($article['content']);?></th>
+            <th><?=$article['date'];?></th>
+            <th><?=$article['enabled'];?></th>
+            <th>Activer</th>
+            <th>Editer</th>
+            <th>Supprimer</th>
             <?php //TODO on innove ici en créant les td et leur contenu (pour connaitre le contenu, s'aider des <th> ci-dessus) ?>
         </tr>
 <?php
-//TODO ferme la boucle
+}
 ?>
 
     </tbody>
